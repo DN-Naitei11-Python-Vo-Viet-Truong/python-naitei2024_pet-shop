@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'app',
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'vi'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
@@ -150,3 +151,5 @@ cloudinary.config(
     api_key=os.getenv("CLOUDINARY_API_KEY"),
     api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
+
+LOGOUT_REDIRECT_URL = '/'

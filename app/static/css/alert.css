@@ -1,0 +1,16 @@
+.alert-error {
+    background-color: #f8d7da; /* Màu nền đỏ nhạt */
+    color: #721c24; /* Màu chữ đỏ đậm */
+    border: 1px solid #f5c6cb; /* Đường viền đỏ nhạt */
+}
+
+.message-container{
+    position: fixed;
+    z-index: 500;
+    top: 0;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+}

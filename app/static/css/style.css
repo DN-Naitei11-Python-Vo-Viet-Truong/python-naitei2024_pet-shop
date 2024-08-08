@@ -926,3 +926,7 @@ Single Product section style start
 .footer .footer-item p.mb-4 {
     line-height: 35px;
 }
+
+input.form-control {
+  text-transform: none;
+}

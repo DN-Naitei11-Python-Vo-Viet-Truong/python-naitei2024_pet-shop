@@ -60,6 +60,10 @@ class CustomUser(AbstractUser):
         null=False,
         verbose_name=_('default phone number')
     )
+    is_banned = models.BooleanField(
+        default=False,
+        verbose_name=_('banned status')
+    )
     otp_secret = models.CharField(
         max_length=MAX_LENGTH_OTP_SCRET,
         blank=True,

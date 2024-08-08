@@ -1,23 +1,23 @@
-{% block header %} {% load static %}
+{% block header %} {% load static %}{% load i18n %}
 <div
     class="offcanvas offcanvas-end"
     data-bs-scroll="true"
     tabindex="-1"
     id="offcanvasCart"
-    aria-labelledby="My Cart"
+    aria-labelledby="{% trans 'My Cart' %}"
 >
     <div class="offcanvas-header justify-content-center">
         <button
             type="button"
             class="btn-close"
             data-bs-dismiss="offcanvas"
-            aria-label="Close"
+            aria-label="{% trans 'Close' %}"
         ></button>
     </div>
     <div class="offcanvas-body">
         <div class="order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Your cart</span>
+                <span class="text-primary">{% trans 'Your cart' %}</span>
                 <span class="badge bg-primary rounded-circle pt-2">3</span>
             </h4>
             <ul class="list-group mb-3">
@@ -26,9 +26,9 @@
                 >
                     <div>
                         <h6 class="my-0">Grey Hoodie</h6>
-                        <small class="text-body-secondary"
-                            >Brief description</small
-                        >
+                        <small class="text-body-secondary">
+                            {% trans 'Brief description' %}
+                        </small>
                     </div>
                     <span class="text-body-secondary">$12</span>
                 </li>
@@ -37,9 +37,9 @@
                 >
                     <div>
                         <h6 class="my-0">Dog Food</h6>
-                        <small class="text-body-secondary"
-                            >Brief description</small
-                        >
+                        <small class="text-body-secondary">
+                            {% trans 'Brief description' %}
+                        </small>
                     </div>
                     <span class="text-body-secondary">$8</span>
                 </li>
@@ -47,21 +47,21 @@
                     class="list-group-item d-flex justify-content-between lh-sm"
                 >
                     <div>
-                        <h6 class="my-0">Soft Toy</h6>
-                        <small class="text-body-secondary"
-                            >Brief description</small
-                        >
+                        <h6 class="my-0">{% trans 'Soft Toy' %}</h6>
+                        <small class="text-body-secondary">
+                            Brief description
+                        </small>
                     </div>
                     <span class="text-body-secondary">$5</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
-                    <span class="fw-bold">Total (USD)</span>
+                    <span class="fw-bold">{% trans 'Total (USD)' %}</span>
                     <strong>$20</strong>
                 </li>
             </ul>
 
             <button class="w-100 btn btn-primary btn-lg" type="submit">
-                Continue to checkout
+                {% trans 'Continue to checkout' %}
             </button>
         </div>
     </div>
@@ -84,7 +84,7 @@
     </div>
     <div class="offcanvas-body">
         <div class="order-md-last">
-            <h4 class="text-primary text-uppercase mb-3">Search</h4>
+            <h4 class="text-primary text-uppercase mb-3">{% trans "Search"%}</h4>
             <div class="search-bar border rounded-2 border-dark-subtle">
                 <form
                     id="search-form"
@@ -112,7 +112,7 @@
         <div class="row py-4 pb-0 pb-sm-4 align-items-center">
             <div class="col-sm-4 col-lg-3 text-center text-sm-start">
                 <div class="main-logo">
-                    <a href="index.html"
+                    <a href="{% url 'index' %}"
                         ><img
                             src="{% static 'images/logo.png' %}"
                             alt="logo"
@@ -156,14 +156,29 @@
             <div
                 class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end"
             >
+                {% if user.is_authenticated %}
                 <div class="support-box text-end d-none d-xl-block">
-                    <span class="fs-6 secondary-font text-muted">Phone</span>
-                    <h5 class="mb-0">+980-34984089</h5>
+                    <span class="fs-6 secondary-font text-muted">{% trans 'Name' %}</span>
+                    <h5 class="mb-0">{{user.first_name}} {{user.last_name}}</h5>
                 </div>
-                <div class="support-box text-end d-none d-xl-block">
-                    <span class="fs-6 secondary-font text-muted">Email</span>
-                    <h5 class="mb-0">waggy@gmail.com</h5>
+                {% comment %} <div class="support-box text-end d-none d-xl-block">
+                    {% load cloudinary %}
+                    <img src="{{ user.avatar.url }}" alt="{% trans 'Image' %}" style="width: 150px; height: 150px; object-fit: cover;">
+                </div> {% endcomment %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link" style="padding: 0;">{% trans "Logout"%}</button>
+                  </form>
+                {% else %}
+                <div class="support-box text-end d-none d-xl-block mt-3">
+                    <form action="{% url 'sign-in' %}" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-primary me-2 text-uppercase fs-6">{% trans 'Sign In' %}</button>
+                    </form>
+                    <form action="" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">{% trans 'Sign Up' %}</button>
+                    </form>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -255,7 +270,7 @@
 
                 <div class="offcanvas-body justify-content-between">
                     <select class="filter-categories border-0 mb-0 me-5">
-                        <option>Shop by Category</option>
+                        <option>{% trans "Shop by Category"%}</option>
                         <option>Clothes</option>
                         <option>Food</option>
                         <option>Food</option>
@@ -267,142 +282,17 @@
                     >
                         <li class="nav-item">
                             <a href="index.html" class="nav-link active"
-                                >Home</a
+                                >{% trans "Home" %}</a
                             >
                         </li>
                         <li class="nav-item dropdown">
                             <a
-                                class="nav-link dropdown-toggle"
+                                class="nav-link"
                                 role="button"
                                 id="pages"
-                                data-bs-toggle="dropdown"
                                 aria-expanded="false"
                                 >Pages</a
                             >
-                            <ul class="dropdown-menu" aria-labelledby="pages">
-                                <li>
-                                    <a href="about" class="dropdown-item"
-                                        >About Us<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="{% url 'shop' %}" class="dropdown-item"
-                                        >Shop<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="single-product.html"
-                                        class="dropdown-item"
-                                        >Single Product<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="cart.html" class="dropdown-item"
-                                        >Cart<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="wishlist.html"
-                                        class="dropdown-item"
-                                        >Wishlist<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="checkout.html"
-                                        class="dropdown-item"
-                                        >Checkout<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="blog.html" class="dropdown-item"
-                                        >Blog<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="single-post.html"
-                                        class="dropdown-item"
-                                        >Single Post<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="contact.html" class="dropdown-item"
-                                        >Contact<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="faqs.html" class="dropdown-item"
-                                        >FAQs<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="account.html" class="dropdown-item"
-                                        >Account<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="thank-you.html"
-                                        class="dropdown-item"
-                                        >Thankyou<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="error.html" class="dropdown-item"
-                                        >Error 404<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="styles.html" class="dropdown-item"
-                                        >Styles<span
-                                            class="badge bg-success text-dark ms-2"
-                                            >PRO</span
-                                        ></a
-                                    >
-                                </li>
-                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'shop' %}" class="nav-link">Shop Ne</a>
@@ -411,18 +301,10 @@
                             <a href="blog.html" class="nav-link">Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a href="contact.html" class="nav-link">Contact</a>
+                            <a href="contact.html" class="nav-link">{% trans "Contact"%}</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">Others</a>
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                href="https://templatesjungle.gumroad.com/l/waggy-pet-shop-ecommerce-html-website-template"
-                                class="nav-link fw-bold text-dark"
-                                target="_blank"
-                                >GET PRO</a
-                            >
                         </li>
                     </ul>
 

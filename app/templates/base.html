@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
         <link rel="stylesheet" href="{% static 'css/vendor.css' %}" />
         <link rel="stylesheet" href="{% static 'css/swiper.css' %}" />
-
+        <link rel="stylesheet" href="{% static 'css/alert.css' %}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -33,6 +33,17 @@
             <div class="preloader"></div>
         </div>
         <div class="layout">
+            {% if messages %}
+            <div class="message-container">
+                <div class="container mt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
             {% include 'components/header.html' %}
             {% block content %}
             {% endblock content %}
@@ -47,5 +58,6 @@
         <script src="{% static 'js/script.js' %}"></script>
         <script src="{% static 'js/iconify.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/alert-message.js' %}"></script>
     </body>
 </html>
